@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Blog.Models.Post>
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "My Posts";
+}
+
+<h1>My Posts</h1>
+
+
+@{
+
+    if (@Context.Session.GetString("LoggedIn") == "true") {
+    <h2>Logged In: @Context.Session.GetString("LoggedInAs")</h2>
+        <p>
+            <a asp-action="Create">Create New Post</a>
+        </p>
+    }
+}
+<main class="container">
+    @{
+        if (Model != null) {
+            foreach (var item in Model) {
+                <div class="col-md-6">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                        <div class="col p-4 d-flex flex-column position-static">
+                            @*<strong class="d-inline-block mb-2 text-primary">World</strong>*@
+                            <h3 class="mb-0">@Html.DisplayFor(modelItem => item.Title)</h3>
+                            <div class="mb-1 text-muted">@Html.DisplayFor(modelItem => item.PublicationDate)</div>
+                            <p class="card-text mb-auto">@Html.DisplayFor(modelItem => item.Description)</p>
+                            <p style="font-weight:bold; float:right; font-size:10px;">posted by - @Html.DisplayFor(modelItem => item.User)</p>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        } else {
+            <h2>Please login to view posts</h2>
+        }
+
+    }
+
+</main>
+

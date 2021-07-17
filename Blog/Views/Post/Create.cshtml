@@ -1,0 +1,56 @@
+﻿@model Blog.Models.Post
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Create";
+}
+@{
+
+    if (@Context.Session.GetString("LoggedIn") == "true") {
+        <h1>Create new Post</h1>
+
+        <h2>Logged In: @Context.Session.GetString("LoggedInAs")</h2>
+        <h4>Post</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    @*<div class="form-group">
+            <label asp-for="PublicationDate" class="control-label"></label>
+            <input asp-for="PublicationDate" class="form-control" />
+            <span asp-validation-for="PublicationDate" class="text-danger"></span>
+        </div>*@
+                    <div class="form-group">
+                        <label asp-for="User" class="control-label"></label>
+                        <input asp-for="User" value="@Context.Session.GetString("LoggedInAs")" readonly="readonly" class="form-control" />
+                        <span asp-validation-for="User" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    } else {
+        <h2>Please login to create new Post</h2>
+    }
+}
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
